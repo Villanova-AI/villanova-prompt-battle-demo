@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box}
 :root{--panel:#0d1829;--line:#243958;--text:#f7f9ff;--muted:#9cacc5}
-body{margin:0;color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(circle at 50% 8%,#142747 0,#0a1424 32%,#050b14 72%);min-height:100vh}
+body{margin:0;color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(145deg,#000000 0%,#0693e3 52%,#9b51e0 100%);min-height:100vh}
 .wrap{width:min(1000px,calc(100% - 36px));margin:auto}
 header{text-align:center;padding:54px 0 30px}
 .logo{display:block;width:min(470px,82vw);max-height:120px;margin:0 auto 24px;object-fit:contain}
@@ -18,13 +18,13 @@ header{text-align:center;padding:54px 0 30px}
 .feature{padding:4px 28px;text-align:left;border-right:1px solid #2b3a52}
 .feature:last-child{border:0}.feature strong{display:block;font-size:14px;letter-spacing:.08em;text-transform:uppercase}
 .feature span{display:block;margin-top:6px;color:#aab8ce;font-size:13px}
-.card{background:linear-gradient(145deg,rgba(16,29,49,.96),rgba(8,18,32,.96));border:1px solid var(--line);border-radius:20px;padding:34px;box-shadow:0 24px 70px rgba(0,0,0,.32)}
+.card{background:linear-gradient(145deg,rgba(0,0,0,.94),rgba(6,147,227,.22));border:1px solid var(--line);border-radius:20px;padding:34px;box-shadow:0 24px 70px rgba(0,0,0,.32)}
 .section-title{margin:0;font-size:15px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
 .section-sub{margin:7px 0 18px;color:var(--muted);font-size:14px}
 textarea{width:100%;min-height:190px;border:1px solid #314563;border-radius:13px;background:#f8f9fc;color:#172033;padding:19px;font:16px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical;outline:none}
 textarea:focus{box-shadow:0 0 0 3px rgba(86,102,255,.22);border-color:#6473ff}
 .counter{text-align:right;color:#77869c;font-size:12px;margin-top:-27px;padding-right:15px;position:relative;pointer-events:none}
-button{width:100%;margin-top:28px;padding:16px 22px;border:1px solid #7380ff;border-radius:11px;background:linear-gradient(90deg,#4655ef,#6875ff);color:#fff;font-size:15px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;cursor:pointer}
+button{width:100%;margin-top:28px;padding:16px 22px;border:1px solid #7380ff;border-radius:11px;background:linear-gradient(90deg,#0693e3,#9b51e0);color:#fff;font-size:15px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;cursor:pointer}
 button:hover{filter:brightness(1.08)}button:disabled{opacity:.55;cursor:wait}
 .status{margin:14px 0 0;color:#aab8ce;font-size:13px}
 .answer-wrap{margin-top:30px;border:1px solid var(--line);border-radius:15px;padding:24px;background:rgba(9,19,34,.55)}
@@ -39,8 +39,6 @@ footer{text-align:center;padding:48px 20px;color:#c1cce0;font-size:13px;font-wei
 <header>
   <img class="logo" src="Logo_VILLANOVA.svg" alt="Villanova">
   <div class="battle">Prompt Battle</div>
-  <div class="claim">Quanto riesci a ottenere da Villanova con un solo prompt?</div>
-  <div class="sub">Un prompt. Una risposta. Scopri cosa può fare Villanova.</div>
   <div class="features">
     <div class="feature"><strong>Analisi</strong><span>Interpreta e analizza un testo</span></div>
     <div class="feature"><strong>Comprensione</strong><span>Cogli informazioni, relazioni e significato</span></div>
