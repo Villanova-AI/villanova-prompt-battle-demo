@@ -3,282 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Villanova Prompt Battle - Test Multiutente</title>
-
+<title>Villanova Prompt Battle</title>
 <style>
-body {
-    font-family: Arial, sans-serif;
-    background: #f4f5f7;
-    margin: 0;
-    padding: 30px;
-}
-
-.container {
-    max-width: 1100px;
-    margin: auto;
-}
-
-h1 {
-    margin-bottom: 5px;
-}
-
-.subtitle {
-    color: #666;
-    margin-bottom: 30px;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-.card {
-    background: white;
-    padding: 22px;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-}
-
-.card h2 {
-    margin-top: 0;
-}
-
-textarea {
-    width: 100%;
-    box-sizing: border-box;
-    min-height: 110px;
-    padding: 12px;
-    font-size: 15px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
-    resize: vertical;
-}
-
-.status {
-    margin-top: 15px;
-    font-weight: bold;
-}
-
-.response {
-    margin-top: 10px;
-    padding: 15px;
-    min-height: 55px;
-    background: #f7f7f7;
-    border-radius: 7px;
-    white-space: pre-wrap;
-}
-
-.time {
-    margin-top: 10px;
-    color: #666;
-}
-
-.controls {
-    text-align: center;
-    margin-top: 30px;
-}
-
-button {
-    padding: 15px 30px;
-    font-size: 17px;
-    border: 0;
-    border-radius: 8px;
-    background: #111;
-    color: white;
-    cursor: pointer;
-}
-
-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-#summary {
-    background: white;
-    margin-top: 25px;
-    padding: 20px;
-    border-radius: 12px;
-    display: none;
-}
-
-@media (max-width: 750px) {
-    .grid {
-        grid-template-columns: 1fr;
-    }
-}
+*{box-sizing:border-box}
+:root{--panel:#0d1829;--line:#243958;--text:#f7f9ff;--muted:#9cacc5}
+body{margin:0;color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(circle at 50% 8%,#142747 0,#0a1424 32%,#050b14 72%);min-height:100vh}
+.wrap{width:min(1000px,calc(100% - 36px));margin:auto}
+header{text-align:center;padding:54px 0 30px}
+.logo{display:block;width:min(470px,82vw);max-height:120px;margin:0 auto 24px;object-fit:contain}
+.battle{font-size:clamp(22px,4vw,38px);font-weight:650;letter-spacing:.28em;text-transform:uppercase}
+.claim{margin:28px auto 0;font-size:clamp(18px,2.5vw,25px);font-weight:750}
+.sub{margin:10px auto 0;color:#b6c4db;font-size:17px}
+.features{display:grid;grid-template-columns:repeat(3,1fr);margin:42px auto;max-width:820px}
+.feature{padding:4px 28px;text-align:left;border-right:1px solid #2b3a52}
+.feature:last-child{border:0}.feature strong{display:block;font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+.feature span{display:block;margin-top:6px;color:#aab8ce;font-size:13px}
+.card{background:linear-gradient(145deg,rgba(16,29,49,.96),rgba(8,18,32,.96));border:1px solid var(--line);border-radius:20px;padding:34px;box-shadow:0 24px 70px rgba(0,0,0,.32)}
+.section-title{margin:0;font-size:15px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.section-sub{margin:7px 0 18px;color:var(--muted);font-size:14px}
+textarea{width:100%;min-height:190px;border:1px solid #314563;border-radius:13px;background:#f8f9fc;color:#172033;padding:19px;font:16px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical;outline:none}
+textarea:focus{box-shadow:0 0 0 3px rgba(86,102,255,.22);border-color:#6473ff}
+.counter{text-align:right;color:#77869c;font-size:12px;margin-top:-27px;padding-right:15px;position:relative;pointer-events:none}
+button{width:100%;margin-top:28px;padding:16px 22px;border:1px solid #7380ff;border-radius:11px;background:linear-gradient(90deg,#4655ef,#6875ff);color:#fff;font-size:15px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;cursor:pointer}
+button:hover{filter:brightness(1.08)}button:disabled{opacity:.55;cursor:wait}
+.status{margin:14px 0 0;color:#aab8ce;font-size:13px}
+.answer-wrap{margin-top:30px;border:1px solid var(--line);border-radius:15px;padding:24px;background:rgba(9,19,34,.55)}
+.answer{margin-top:16px;min-height:150px;border:1px solid #263b59;border-radius:12px;padding:20px;color:#c8d3e5;white-space:pre-wrap;line-height:1.65;background:#091424}
+.meta{display:flex;justify-content:space-between;margin-top:12px;color:#7f91ad;font-size:12px}
+footer{text-align:center;padding:48px 20px;color:#c1cce0;font-size:13px;font-weight:700;letter-spacing:.28em;text-transform:uppercase}
+@media(max-width:650px){header{padding-top:38px}.battle{letter-spacing:.15em}.features{grid-template-columns:1fr;gap:18px}.feature{border:0;border-bottom:1px solid #2b3a52;padding:0 0 16px}.card{padding:22px}.meta{display:block}.meta span{display:block;margin-top:5px}}
 </style>
 </head>
-
 <body>
-
-<div class="container">
-
-<h1>Villanova Prompt Battle</h1>
-<div class="subtitle">
-Test tecnico — 4 partecipanti simultanei
+<div class="wrap">
+<header>
+  <img class="logo" src="Logo_VILLANOVA.svg" alt="Villanova">
+  <div class="battle">Prompt Battle</div>
+  <div class="claim">Quanto riesci a ottenere da Villanova con un solo prompt?</div>
+  <div class="sub">Un prompt. Una risposta. Scopri cosa può fare Villanova.</div>
+  <div class="features">
+    <div class="feature"><strong>Analisi</strong><span>Interpreta e analizza un testo</span></div>
+    <div class="feature"><strong>Comprensione</strong><span>Cogli informazioni, relazioni e significato</span></div>
+    <div class="feature"><strong>Traduzione</strong><span>Metti alla prova Villanova in più lingue</span></div>
+  </div>
+</header>
+<main class="card">
+  <p class="section-title">Il tuo prompt</p>
+  <p class="section-sub">Scrivi qui la tua richiesta per Villanova.</p>
+  <textarea id="prompt" maxlength="4000" placeholder="Scrivi qui il tuo prompt..." oninput="updateCounter()"></textarea>
+  <div class="counter" id="counter">0/4000</div>
+  <button id="btn" onclick="sendPrompt()">Invia a Villanova</button>
+  <div class="status" id="status">Pronto</div>
+  <section class="answer-wrap">
+    <p class="section-title">Risposta Villanova</p>
+    <div class="answer" id="answer">La risposta apparirà qui...</div>
+    <div class="meta"><span id="time">Tempo: —</span><span>Villanova Prompt Battle</span></div>
+  </section>
+</main>
 </div>
-
-<div class="grid">
-
-    <div class="card">
-        <h2>Partecipante 1</h2>
-        <textarea id="prompt1">Rispondi soltanto con la frase: RISPOSTA PARTECIPANTE 1</textarea>
-        <div class="status" id="status1">Pronto</div>
-        <div class="response" id="response1">—</div>
-        <div class="time" id="time1"></div>
-    </div>
-
-    <div class="card">
-        <h2>Partecipante 2</h2>
-        <textarea id="prompt2">Rispondi soltanto con la frase: RISPOSTA PARTECIPANTE 2</textarea>
-        <div class="status" id="status2">Pronto</div>
-        <div class="response" id="response2">—</div>
-        <div class="time" id="time2"></div>
-    </div>
-
-    <div class="card">
-        <h2>Partecipante 3</h2>
-        <textarea id="prompt3">Rispondi soltanto con la frase: RISPOSTA PARTECIPANTE 3</textarea>
-        <div class="status" id="status3">Pronto</div>
-        <div class="response" id="response3">—</div>
-        <div class="time" id="time3"></div>
-    </div>
-
-    <div class="card">
-        <h2>Partecipante 4</h2>
-        <textarea id="prompt4">Rispondi soltanto con la frase: RISPOSTA PARTECIPANTE 4</textarea>
-        <div class="status" id="status4">Pronto</div>
-        <div class="response" id="response4">—</div>
-        <div class="time" id="time4"></div>
-    </div>
-
-</div>
-
-<div class="controls">
-    <button id="startButton" onclick="startTest()">
-        AVVIA TEST SIMULTANEO
-    </button>
-</div>
-
-<div id="summary"></div>
-
-</div>
-
+<footer>Le idee di oggi, il mondo di domani</footer>
 <script>
-
-async function sendParticipant(number) {
-
-    const prompt =
-        document.getElementById("prompt" + number).value.trim();
-
-    const status =
-        document.getElementById("status" + number);
-
-    const responseBox =
-        document.getElementById("response" + number);
-
-    const timeBox =
-        document.getElementById("time" + number);
-
-    status.textContent = "Elaborazione...";
-    responseBox.textContent = "";
-    timeBox.textContent = "";
-
-    const start = performance.now();
-
-    try {
-
-        const response = await fetch("/chat", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                message: prompt
-            })
-        });
-
-        const data = await response.json();
-
-        const seconds =
-            ((performance.now() - start) / 1000).toFixed(2);
-
-        if (!response.ok) {
-            throw new Error(data.error || "Errore backend");
-        }
-
-        responseBox.textContent =
-            data.reply || JSON.stringify(data, null, 2);
-
-        status.textContent = "Risposta ricevuta";
-        timeBox.textContent = "Tempo: " + seconds + " secondi";
-
-        return {
-            participant: number,
-            success: true,
-            seconds: Number(seconds)
-        };
-
-    } catch (error) {
-
-        const seconds =
-            ((performance.now() - start) / 1000).toFixed(2);
-
-        status.textContent = "Errore";
-        responseBox.textContent = error.message;
-        timeBox.textContent = "Tempo: " + seconds + " secondi";
-
-        return {
-            participant: number,
-            success: false,
-            seconds: Number(seconds)
-        };
-    }
+const BACKEND_URL="";
+function updateCounter(){const v=document.getElementById("prompt").value;document.getElementById("counter").textContent=v.length+"/4000";}
+async function sendPrompt(){
+ const p=document.getElementById("prompt").value.trim(),b=document.getElementById("btn"),s=document.getElementById("status"),a=document.getElementById("answer"),t=document.getElementById("time");
+ if(!p){s.textContent="Inserisci prima un prompt.";return}
+ if(!BACKEND_URL){s.textContent="Backend non ancora collegato";a.textContent="La pagina pubblica è pronta. Il collegamento a Villanova verrà attivato nel prossimo passaggio.";t.textContent="Tempo: —";return}
+ b.disabled=true;s.textContent="Villanova sta elaborando...";a.textContent="Elaborazione in corso...";t.textContent="Tempo: —";const start=performance.now();
+ try{const r=await fetch(BACKEND_URL+"/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message:p})});const d=await r.json();if(!r.ok)throw new Error();a.textContent=d.response||d.text||d.answer||JSON.stringify(d,null,2);t.textContent="Tempo: "+((performance.now()-start)/1000).toFixed(2)+" secondi";s.textContent="Risposta ricevuta"}catch(e){a.textContent="Impossibile ottenere la risposta di Villanova.";s.textContent="Errore di collegamento"}finally{b.disabled=false}
 }
-
-
-async function startTest() {
-
-    const button = document.getElementById("startButton");
-    const summary = document.getElementById("summary");
-
-    button.disabled = true;
-    summary.style.display = "none";
-
-    const globalStart = performance.now();
-
-    /*
-       Le quattro funzioni vengono avviate prima di attenderne
-       il completamento: le richieste partono quindi insieme.
-    */
-    const requests = [
-        sendParticipant(1),
-        sendParticipant(2),
-        sendParticipant(3),
-        sendParticipant(4)
-    ];
-
-    const results = await Promise.all(requests);
-
-    const globalSeconds =
-        ((performance.now() - globalStart) / 1000).toFixed(2);
-
-    const successful =
-        results.filter(r => r.success).length;
-
-    summary.style.display = "block";
-
-    summary.innerHTML =
-        "<strong>RISULTATO TEST</strong><br><br>" +
-        "Richieste completate: " + successful + "/4<br>" +
-        "Durata complessiva del test: " +
-        globalSeconds + " secondi";
-
-    button.disabled = false;
-}
-
 </script>
-
 </body>
 </html>
