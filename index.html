@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Villanova Prompt Battle - Test Multiutente</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f5f7;
+    margin: 0;
+    padding: 30px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+h1 {
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+textarea {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 110px;
+    padding: 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    resize: vertical;
+}
+
+.status {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.response {
+    margin-top: 10px;
+    padding: 15px;
+    min-height: 55px;
+    background: #f7f7f7;
+    border-radius: 7px;
+    white-space: pre-wrap;
+}
+
+.time {
+    margin-top: 10px;
+    color: #666;
+}
+
+.controls {
+    text-align: center;
+    margin-top: 30px;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 17px;
+    border: 0;
+    border-radius: 8px;
+    background: #111;
+    color: white;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#summary {
+    background: white;
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 12px;
+    display: none;
+}
+
+@media (max-width: 750px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Villanova Prompt Battle</h1>
+<div class="subtitle">
+Test tecnico — 4 partecipanti simultanei
+</div>
+
+<div class="grid">
+
+    <div class="card">
+        <h2>Partecipante 1</h2>
+        <textarea id="prompt1">Rispondi soltanto con la frase: RISPOSTA PARTECIPANTE 1</textarea>
+        <div class="status" id="status1">Pronto</div>
+        <div class="response" id="response1">—</div>
+        <div class="time" id="time1"></div>
+    </div>
+
+    <div class="card">
+        <h2>Partecipante 2</h2>
+        <textarea id="prompt2">Rispondi soltanto con la frase: RISPOSTA PARTECIPANTE 2</textarea>
+        <div class="status" id="status2">Pronto</div>
+        <div class="response" id="response2">—</div>
+        <div class="time" id="time2"></div>
+    </div>
+
+    <div class="card">
+        <h2>Partecipante 3</h2>
+        <textarea id="prompt3">Rispondi soltanto con la frase: RISPOSTA PARTECIPANTE 3</textarea>
+        <div class="status" id="status3">Pronto</div>
+        <div class="response" id="response3">—</div>
+        <div class="time" id="time3"></div>
+    </div>
+
+    <div class="card">
+        <h2>Partecipante 4</h2>
+        <textarea id="prompt4">Rispondi soltanto con la frase: RISPOSTA PARTECIPANTE 4</textarea>
+        <div class="status" id="status4">Pronto</div>
+        <div class="response" id="response4">—</div>
+        <div class="time" id="time4"></div>
+    </div>
+
+</div>
+
+<div class="controls">
+    <button id="startButton" onclick="startTest()">
+        AVVIA TEST SIMULTANEO
+    </button>
+</div>
+
+<div id="summary"></div>
+
+</div>
+
+<script>
+
+async function sendParticipant(number) {
+
+    const prompt =
+        document.getElementById("prompt" + number).value.trim();
+
+    const status =
+        document.getElementById("status" + number);
+
+    const responseBox =
+        document.getElementById("response" + number);
+
+    const timeBox =
+        document.getElementById("time" + number);
+
+    status.textContent = "Elaborazione...";
+    responseBox.textContent = "";
+    timeBox.textContent = "";
+
+    const start = performance.now();
+
+    try {
+
+        const response = await fetch("/chat", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                message: prompt
+            })
+        });
+
+        const data = await response.json();
+
+        const seconds =
+            ((performance.now() - start) / 1000).toFixed(2);
+
+        if (!response.ok) {
+            throw new Error(data.error || "Errore backend");
+        }
+
+        responseBox.textContent =
+            data.reply || JSON.stringify(data, null, 2);
+
+        status.textContent = "Risposta ricevuta";
+        timeBox.textContent = "Tempo: " + seconds + " secondi";
+
+        return {
+            participant: number,
+            success: true,
+            seconds: Number(seconds)
+        };
+
+    } catch (error) {
+
+        const seconds =
+            ((performance.now() - start) / 1000).toFixed(2);
+
+        status.textContent = "Errore";
+        responseBox.textContent = error.message;
+        timeBox.textContent = "Tempo: " + seconds + " secondi";
+
+        return {
+            participant: number,
+            success: false,
+            seconds: Number(seconds)
+        };
+    }
+}
+
+
+async function startTest() {
+
+    const button = document.getElementById("startButton");
+    const summary = document.getElementById("summary");
+
+    button.disabled = true;
+    summary.style.display = "none";
+
+    const globalStart = performance.now();
+
+    /*
+       Le quattro funzioni vengono avviate prima di attenderne
+       il completamento: le richieste partono quindi insieme.
+    */
+    const requests = [
+        sendParticipant(1),
+        sendParticipant(2),
+        sendParticipant(3),
+        sendParticipant(4)
+    ];
+
+    const results = await Promise.all(requests);
+
+    const globalSeconds =
+        ((performance.now() - globalStart) / 1000).toFixed(2);
+
+    const successful =
+        results.filter(r => r.success).length;
+
+    summary.style.display = "block";
+
+    summary.innerHTML =
+        "<strong>RISULTATO TEST</strong><br><br>" +
+        "Richieste completate: " + successful + "/4<br>" +
+        "Durata complessiva del test: " +
+        globalSeconds + " secondi";
+
+    button.disabled = false;
+}
+
+</script>
+
+</body>
+</html>
