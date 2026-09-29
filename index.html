@@ -79,13 +79,20 @@ async function sendPrompt(){
      body:JSON.stringify({message:p})
    });
    const d=await r.json();
-   if(!r.ok) throw new Error(d.error || "Errore");
+   // Se il backend risponde con un errore (es. limite di richieste superato),
+   // il suo messaggio viene mostrato al partecipante invece di quello generico.
+   if(!r.ok){const err=new Error(d.error || "Errore");err.fromBackend=true;throw err;}
    a.textContent = d.reply || d.response || d.text || JSON.stringify(d,null,2);
    t.textContent="Tempo: "+((performance.now()-start)/1000).toFixed(2)+" secondi";
    s.textContent="Risposta ricevuta"
  }catch(e){
-   a.textContent="Impossibile ottenere la risposta di Villanova.";
-   s.textContent="Errore di collegamento"
+   if(e.fromBackend){
+     a.textContent=e.message;
+     s.textContent="Richiesta non completata"
+   }else{
+     a.textContent="Impossibile ottenere la risposta di Villanova.";
+     s.textContent="Errore di collegamento"
+   }
  }finally{
    b.disabled=false
  }
