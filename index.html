@@ -55,7 +55,7 @@ footer{text-align:center;padding:48px 20px;color:#c1cce0;font-size:13px;font-wei
   <section class="answer-wrap">
     <p class="section-title">Risposta Villanova</p>
     <div class="answer" id="answer">La risposta apparirà qui...</div>
-    <div class="meta"><span id="time">Tempo: —</span><span>Villanova Prompt Battle</span></div>
+    <div class="meta"><span></span><span>Villanova Prompt Battle</span></div>
   </section>
 </main>
 </div>
@@ -65,10 +65,10 @@ const BACKEND_URL="https://prompt-battle-backend.onrender.com";
 function updateCounter(){const v=document.getElementById("prompt").value;document.getElementById("counter").textContent=v.length+"/4000";}
 const BATTLE_KEY = "c241884f8d44cabb1c63e7f774087724";
 async function sendPrompt(){
- const p=document.getElementById("prompt").value.trim(),b=document.getElementById("btn"),s=document.getElementById("status"),a=document.getElementById("answer"),t=document.getElementById("time");
+ const p=document.getElementById("prompt").value.trim(),b=document.getElementById("btn"),s=document.getElementById("status"),a=document.getElementById("answer");
  if(!p){s.textContent="Inserisci prima un prompt.";return}
- if(!BACKEND_URL){s.textContent="Backend non ancora collegato";a.textContent="La pagina pubblica è pronta. Il collegamento a Villanova verrà attivato nel prossimo passaggio.";t.textContent="Tempo: —";return}
- b.disabled=true;s.textContent="Villanova sta elaborando...";a.textContent="Elaborazione in corso...";t.textContent="Tempo: —";const start=performance.now();
+ if(!BACKEND_URL){s.textContent="Backend non ancora collegato";a.textContent="La pagina pubblica è pronta. Il collegamento a Villanova verrà attivato nel prossimo passaggio.";return}
+ b.disabled=true;s.textContent="Villanova sta elaborando...";a.textContent="Elaborazione in corso...";
  try{
    const r=await fetch(BACKEND_URL+"/chat",{
      method:"POST",
@@ -83,7 +83,6 @@ async function sendPrompt(){
    // il suo messaggio viene mostrato al partecipante invece di quello generico.
    if(!r.ok){const err=new Error(d.error || "Errore");err.fromBackend=true;throw err;}
    a.textContent = d.reply || d.response || d.text || JSON.stringify(d,null,2);
-   t.textContent="Tempo: "+((performance.now()-start)/1000).toFixed(2)+" secondi";
    s.textContent="Risposta ricevuta"
  }catch(e){
    if(e.fromBackend){
